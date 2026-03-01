@@ -3,6 +3,12 @@
 #include <vector>
 using namespace std;
 
+void LowerStr(string& str) {
+	for (char& c : str) {
+		c = tolower(c);
+	}
+}
+
 int main() {
     cout << "TO-DO LIST" << endl << "---------------" << endl << endl;
     bool appRun = true;
@@ -35,9 +41,7 @@ int main() {
     cout << endl << "Display Tasks?  ";
     string DTO, MO, TTC, TEC, DET, loopquery; 
     cin >> DTO; //Display Task Option
-    for (char& dtoc : DTO) {
-    	dtoc = tolower(dtoc);
-    }
+    LowerStr(DTO);
     if (DTO == "yes") {
         for (int dty = 0; dty < (int)taskList.size(); dty++) {
             cout << dty + 1 << ".  " << taskList.at(dty) << endl;
@@ -54,9 +58,7 @@ int main() {
     
     cout << "Choose Mode(Edit, TickOff, Add) :-  ";
     cin >> MO;  //Mode Option
-    for (char& moc : MO) {
-    	moc = tolower(moc);
-    }
+    LowerStr(MO);
     if (MO == "edit") {
         cout << endl << "Choose Task Number :-  ";
         cin >> taskIndVec;
@@ -64,18 +66,14 @@ int main() {
         int RI = taskIndVec - 1;
         cout << taskList.at(RI) << endl << "Do you want to edit this task?  ";
         cin >> TEC; //Task Edit Confirmation
-        for (char& tecc : TEC) {
-        	tecc = tolower(tecc);
-        }
+        LowerStr(TEC);
         if (TEC == "yes") {
             cout << "Enter New Description :-  ";
             cin.ignore();
             getline(cin, taskList.at(RI));
             cout << "Edited Succesfully! Would You Like To Display The Edited Task?  ";
             cin >> DET; //Display Edited Task
-            for (char& detc : DET) {
-            	detc = tolower(detc);
-            }
+            LowerStr(DET);
             if (DET == "yes") {
                 cout << taskList.at(RI) << endl << "Done";
             }
@@ -104,9 +102,7 @@ int main() {
          int RI = taskIndVec - 1;
          cout << taskList.at(RI) << endl << "Do you want tick off this task?  ";
          cin >> TTC; //Task Tickoff Confirmation
-         for (char& ttcc : TTC) {
-         	ttcc = tolower(ttcc);
-         }
+         LowerStr(TTC);
          if (TTC == "yes") {
              taskList.erase(taskList.begin() + RI);
              cout << "Task Ticked Off!";
@@ -140,9 +136,7 @@ int main() {
         
         cout << endl << "Exit App/Program?  ";
         cin >> loopquery;
-        for (char& lpc : loopquery) {
-        	lpc = tolower(lpc);
-        }
+        LowerStr(loopquery);
         if (loopquery == "yes") {
             ofstream file("tasklist.txt");
             for (string fotask : taskList) {
