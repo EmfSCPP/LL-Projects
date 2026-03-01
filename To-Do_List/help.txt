@@ -1,0 +1,16 @@
+
+This is a terminal-based to-do list project.
+
+-Type start to start
+-Type help for this section
+-Type quit to exit program
+-Typos like "StaRT" or "yES" are ignored by the program
+-Typos with wrong spellings will return an error message
+  "Please Check For Typos"
+-When you are prompted to input, valid input is shown right next to the prompt in parenthesis
+  eg. "(Edit/TickOff/Add)"
+-When asked for task number, know that the number displayed next to your desired task is its task number 
+-After ending the program, your task list will be saved to a file "tasklist.txt"
+-You don't need to manually create "tasklist.txt"
+-Saved tasks can be interacted with or displayed in another program run
+
