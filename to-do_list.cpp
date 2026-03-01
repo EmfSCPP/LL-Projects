@@ -1,16 +1,183 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
 
-This is a terminal-based to-do list project.
+void LowerStr(string& str) {
+	for (char& c : str) {
+		c = tolower(c);
+	}
+}
+void Help() {
+	ifstream help("help.txt");
+	string line;
+	while (getline(help, line)) {
+		cout << line << endl;
+	}
+	help.close();
+}
 
--Type start to start
--Type help for this section
--Type quit to exit program
--Typos like "StaRT" or "yES" are ignored by the program
--Typos with wrong spellings will return an error message
-  "Please Check For Typos"
--When you are prompted to input, valid input is shown right next to the prompt in parenthesis
-  eg. "(Edit/TickOff/Add)"
--When asked for task number, know that the number displayed next to your desired task is its task number 
--After ending the program, your task list will be saved to a file "tasklist.txt"
--You don't need to manually create "tasklist.txt"
--Saved tasks can be interacted with or displayed in another program run
-
+int main() {
+    cout << "TO-DO LIST" << endl << "---------------" << endl << endl;
+    bool appRun = true, appEntry = true;
+    string spo;
+    while (appEntry) {
+    	cout << "Type Start/Help/Quit :-  "; //Start or Help Option
+    cin >> spo;
+    LowerStr(spo);
+    if (spo == "start") {
+    	cout << "Program Starting" << '\n';
+    	appEntry = false;
+    }
+    else if (spo == "help") {
+    	Help();
+    }
+    else if (spo == "quit") {
+    	cout << "App/Program Terminating.";
+    	return 0;
+    }
+    else {
+    	cout << "Invalid. You may have mistyped" << endl;
+    }
+    }
+    
+    string task;
+    int taskIndVec, newTaskNum, taskNum; // taskIndVec for line 41 input
+    vector<string> taskList;
+    ifstream file("tasklist.txt");
+    while (getline(file, task)) {
+    	taskList.push_back(task);
+    }
+    file.close();
+    cout << "Enter Number of Tasks Today :  ";
+    cin >> taskNum;
+    if (taskNum == 0) {
+        cout << endl << "No Tasks. Reading tasks in storage(Wont appear none exist). " << endl;
+    }
+    else if (taskNum > 0){
+    cout << "Enter Tasks :" << endl << endl;
+    cin.ignore();
+    for (int el = 0; el < taskNum; el++) {   // entry loop
+        getline(cin, task);
+        taskList.push_back(task);
+    }
+    }
+    else {
+        cout << "Negative Number of Tasks is Invalid, Rerun.";
+        return 0;
+    }
+    while(appRun) {
+    cout << endl << "Display Tasks(Yes/No)?  ";
+    string DTO, MO, TTC, TEC, DET, loopquery; 
+    cin >> DTO; //Display Task Option
+    LowerStr(DTO);
+    if (DTO == "yes") {
+        for (int dty = 0; dty < (int)taskList.size(); dty++) {
+            cout << dty + 1 << ".  " << taskList.at(dty) << endl;
+        }
+    }
+    else if (DTO == "no") {
+        cout << "Ok" << endl;
+    }
+    
+    else {
+        cout << "Please Check For Typos." << endl;
+        
+    }
+    
+    cout << "Choose Mode(Edit, TickOff, Add) :-  ";
+    cin >> MO;  //Mode Option
+    LowerStr(MO);
+    if (MO == "edit") {
+        cout << endl << "Choose Task Number :-  ";
+        cin >> taskIndVec;
+        if (taskIndVec > 0 && taskIndVec <= (int)taskList.size()) {
+        int RI = taskIndVec - 1;
+        cout << taskList.at(RI) << endl << "Confirmation : Edit Task(Yes/No)?  ";
+        cin >> TEC; //Task Edit Confirmation
+        LowerStr(TEC);
+        if (TEC == "yes") {
+            cout << "Enter New Description :-  ";
+            cin.ignore();
+            getline(cin, taskList.at(RI));
+            cout << "Edited Succesfully! Would You Like To Display The Edited Task?  ";
+            cin >> DET; //Display Edited Task
+            LowerStr(DET);
+            if (DET == "yes") {
+                cout << taskList.at(RI) << endl << "Done";
+            }
+            else if (DET == "no") {
+                cout << "Ok";
+            }
+            else {
+                cout << "Please Check For Typos";
+            }
+          }
+        else if (TEC == "no") {
+            cout << "Ok";
+        }
+        else {
+            cout << "Please Check For Typos";
+        }
+        }      
+        else {
+            cout << "Error, Task " << taskIndVec << " Does Not Exist";
+        }
+    }
+     else if (MO == "tickoff") {
+         cout << endl << "Choose Task Number :-  ";
+         cin >> taskIndVec;
+         if (taskIndVec > 0 && taskIndVec <= (int)taskList.size()) {
+         int RI = taskIndVec - 1;
+         cout << taskList.at(RI) << endl << "Do you want tick off this task?  ";
+         cin >> TTC; //Task Tickoff Confirmation
+         LowerStr(TTC);
+         if (TTC == "yes") {
+             taskList.erase(taskList.begin() + RI);
+             cout << "Task Ticked Off!";
+         }
+         else if (TTC == "no") {
+             cout << "Ok";
+         }
+         else {
+             cout << "Please Check For Typos";
+         }
+         }
+         else {
+             cout << "Error, Task  " << taskIndVec << " Does Not Exist";
+         }
+     }
+        else if (MO == "add") {
+            cout << "Enter Number Of New Tasks :-  ";
+            cin >> newTaskNum;
+            cout << "Enter New Tasks" << endl;
+            cin.ignore();
+            for (int ntql = 0; ntql < newTaskNum; ntql++) {   //new task query loop
+                string newtask;
+                getline(cin, newtask);
+                taskList.push_back(newtask);
+            }
+            cout << "Succesfully Added New Task(s)!";
+        }
+     else {
+         cout << "Please Check For Typos";
+     }
+        
+        cout << endl << "Exit App/Program?  ";
+        cin >> loopquery;
+        LowerStr(loopquery);
+        if (loopquery == "yes") {
+            ofstream file("tasklist.txt");
+            for (string fotask : taskList) {
+            	file << fotask << endl;
+            }
+            appRun = false;
+        }
+        else if (loopquery == "no") {
+            cout << "App/Program Will Run." << endl << endl << endl;
+        }
+        else {
+            cout << "Please Check For Typos" << endl << "App/Program Will Run.";
+        }
+    }
+}
