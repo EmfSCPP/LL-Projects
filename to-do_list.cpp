@@ -8,10 +8,39 @@ void LowerStr(string& str) {
 		c = tolower(c);
 	}
 }
+void Help() {
+	ifstream help("help.txt");
+	string line;
+	while (getline(help, line)) {
+		cout << line << endl;
+	}
+	help.close();
+}
 
 int main() {
     cout << "TO-DO LIST" << endl << "---------------" << endl << endl;
-    bool appRun = true;
+    bool appRun = true, appEntry = true;
+    string spo;
+    while (appEntry) {
+    	cout << "Type Start/Help/Quit :-  "; //Start or Help Option
+    cin >> spo;
+    LowerStr(spo);
+    if (spo == "start") {
+    	cout << "Program Starting" << '\n';
+    	appEntry = false;
+    }
+    else if (spo == "help") {
+    	Help();
+    }
+    else if (spo == "quit") {
+    	cout << "App/Program Terminating.";
+    	return 0;
+    }
+    else {
+    	cout << "Invalid. You may have mistyped" << endl;
+    }
+    }
+    
     string task;
     int taskIndVec, newTaskNum, taskNum; // taskIndVec for line 41 input
     vector<string> taskList;
@@ -38,7 +67,7 @@ int main() {
         return 0;
     }
     while(appRun) {
-    cout << endl << "Display Tasks?  ";
+    cout << endl << "Display Tasks(Yes/No)?  ";
     string DTO, MO, TTC, TEC, DET, loopquery; 
     cin >> DTO; //Display Task Option
     LowerStr(DTO);
@@ -64,7 +93,7 @@ int main() {
         cin >> taskIndVec;
         if (taskIndVec > 0 && taskIndVec <= (int)taskList.size()) {
         int RI = taskIndVec - 1;
-        cout << taskList.at(RI) << endl << "Do you want to edit this task?  ";
+        cout << taskList.at(RI) << endl << "Confirmation : Edit Task(Yes/No)?  ";
         cin >> TEC; //Task Edit Confirmation
         LowerStr(TEC);
         if (TEC == "yes") {
