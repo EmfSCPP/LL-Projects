@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <functional>
-#include <random>
 #include <vector>
 using namespace std;
 void LowerStr(string& str);
+void DisplayTasks(const vector<string>& taskList);
 void EditM(vector<string>& taskList)
 {
 	int nte; //number of tasks to edit
@@ -14,7 +13,7 @@ void EditM(vector<string>& taskList)
 	{
 		cout << "No Tasks To Edit";
 	}
-	else if (nte > 0)
+	else if (nte > 0 && nte <= (int)taskList.size())
 	{
 		vector<int> EditTN;
 		cout << "Task Number(s) :" << endl;
@@ -39,10 +38,16 @@ void EditM(vector<string>& taskList)
 			getline(cin, tasknew);
 			taskList.at(EditTN.at(ndl) - 1) = tasknew;
 		}
+		cout << "Successfully Edited Task(s)!" << '\n';
+		DisplayTasks(taskList);
+	}
+	else if (nte > (int)taskList.size())
+	{
+		cerr << "Error. " << nte << " Is Greater Than The Number Of Tasks In To-Do List";
 	}
 	else
 	{
-		cerr << "Invalid Input";
+		cerr << "Invalid Input, You May Have A Typo";
 	}
 }
 void TickM(vector<string>& taskList)
@@ -52,8 +57,25 @@ void TickM(vector<string>& taskList)
 	cin >> ttn;
 	if (ttn >= 1 && ttn <= (int)taskList.size())
 	{
-		taskList.erase(taskList.begin() + (ttn - 1));
-		cout << "Task Ticked Off!";
+		string ttc; //tasktickoffconfirmation
+		cout << "Confirm(Yes/No)? :-  ";
+		cin >> ttc;
+		LowerStr(ttc);
+		if (ttc == "yes")
+		{
+			taskList.erase(taskList.begin() + (ttn - 1));
+		cout << "Task Ticked Off!" << '\n';
+		DisplayTasks(taskList);
+		}
+		else if (ttc == "no")
+		{
+			cout << "Ok";
+		}
+		else
+		{
+			cerr << "Invalid Input, You May Have A Typo";
+		}
+		
 	}
 	else if (ttn - 1 == 0)
 	{
@@ -61,7 +83,7 @@ void TickM(vector<string>& taskList)
 	}
 	else
 	{
-		cerr << "Invalid Input";
+		cerr << "Invalid Input, You May Have A Typo";
 	}
 }
 void AddM(vector<string>& taskList)
@@ -83,14 +105,15 @@ void AddM(vector<string>& taskList)
 			getline(cin, newTask);
 			taskList.push_back(newTask);
 		}
-		cout << "Successfully Added New Task(s)!";
+		cout << "Successfully Added New Task(s)!" << '\n';
+		DisplayTasks(taskList);
 	}
 	else 
 	{
-			cerr << "Invalid Input";
+			cerr << "Invalid Input, You May Have A Typo";
 	}
 }
-void ClearM(string file)
+void ClearM(string file, vector<string>& taskList)
 {
 		string tcc; //task clear confirmation
 		cout << "Confirm(Yes/No)? :-  ";
@@ -99,8 +122,9 @@ void ClearM(string file)
 		if (tcc == "yes")
 		{
 			ofstream tasks(file, ios::trunc);
-			tasks << " ";
+			tasks << "";
 			tasks.close();
+			taskList.clear();
 		    cout << "Task List Cleared!";
 		}
 		else if (tcc == "no")
@@ -109,7 +133,7 @@ void ClearM(string file)
 		}
 		else
 		{
-			cerr << "Invalid Input.";
+			cerr << "Invalid Input, You May Have A Typo";
 		}
 }
 	void LowerStr(string& str)
@@ -131,9 +155,16 @@ void ClearM(string file)
 	}
 	void DisplayTasks(const vector<string>& taskList)
 	{
-		for (int dtl = 1; dtl <= (int)taskList.size(); dtl++)
+		if ((int)taskList.size() == 0)
+		{
+			cout << "Empty, No Tasks" << '\n';
+		}
+		else 
+		{
+			for (int dtl = 1; dtl <= (int)taskList.size(); dtl++)
 		{ //display task loop
 			cout << dtl << ".  " << taskList.at(dtl - 1) << endl;
+		}
 		}
 	}
 	void ModeSelex(string input, string filen, vector<string>& taskList)
@@ -158,7 +189,7 @@ void ClearM(string file)
 			LowerStr(moreMO);
 			if (moreMO == "clear") 
 			{
-				ClearM(filen);
+				ClearM(filen, taskList);
 			}
 			else
 			{

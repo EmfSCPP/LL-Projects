@@ -7,11 +7,14 @@ This is a CLI to-do list tool.
 -Typos like "StaRT" or "yES" are ignored by the program
 -Typos with wrong spellings will return an error message
   eg. "Please Check For Typos"
--Input that is simply invalid may cause functioning errors.
+-Input that is simply invalid may cause functioning errors
 -When you are prompted to input, valid input is shown right next to the prompt in parenthesis
   eg. "(Edit, Tickoff, Add, More)"
+-Cautiously perform functions that change the state of your to-do list
+  eg. (Clear), erases all tasks
 -When asked for task number, know that the number displayed next to your desired task is its task number 
 -After ending the program, your task list will be saved to a file "tasklist.txt"
 -You don't need to manually create "tasklist.txt"
+-Your to-do list can be altered outside the program
 -Saved tasks can be interacted with or displayed in another program run
 
