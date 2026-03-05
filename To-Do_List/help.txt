@@ -1,20 +1,38 @@
+*General
 
 This is a CLI to-do list tool.
 
 -Type start to start
 -Type help for this section
 -Type quit to exit program
--Typos like "StaRT" or "yES" are ignored by the program
+-Typos that are capitalized are ignored by the program
 -Typos with wrong spellings will return an error message
   eg. "Please Check For Typos"
 -Input that is simply invalid may cause functioning errors
--When you are prompted to input, valid input is shown right next to the prompt in parenthesis
+-When you are prompted to input, common valid input is shown right next to the prompt in parenthesis
   eg. "(Edit, Tickoff, Add, More)"
+-You can always type help when prompted for states like mode selection to acquire help specific to that prompt
 -Cautiously perform functions that change the state of your to-do list
   eg. (Clear), erases all tasks
--When asked for task number, know that the number displayed next to your desired task is its task number 
 -After ending the program, your task list will be saved to a file "tasklist.txt"
 -You don't need to manually create "tasklist.txt"
 -Your to-do list can be altered outside the program
 -Saved tasks can be interacted with or displayed in another program run
 
+*TaskDisplay
+
+-Tasks are numbered from 1 in the order they were added to the to-do list
+-Whenever prompted for task number, the number next to your task is it's task number
+
+*Mode
+
+-Edit mode, enter number of tasks to edit, the task number, and enter the new descriptions
+tasks will be edited in order they were input
+-Tickoff mode, enter the task number of the task you want to tickoff
+task will be ticked off
+-Add mode, enter number of tasks to add, and just enter the tasks
+-tasks will be appended to the to-do list in the order they were entered
+-More, entering more outputs a prompt to clear your to-do list
+-Confirmation will be asked for Clearing, Adding, or Editing tasks
+
+*Task

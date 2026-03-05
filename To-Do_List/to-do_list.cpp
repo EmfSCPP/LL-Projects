@@ -143,13 +143,25 @@ void ClearM(string file, vector<string>& taskList)
 			c = tolower(c);
 		}
 	}
-	void Help()
+	void Help(string section)
 	{
 		ifstream help("help.txt");
 		string line;
+		bool pout = false;
 		while (getline(help, line))
 		{
-			cout << line << endl;
+			if (line == '*' + section)
+		{
+			pout = true;
+		}
+		else if (line[0] == '*')
+		{
+			pout = false;
+		}
+		if (pout && line[0] != '*')
+		{
+			cout << line << '\n';
+		}
 		}
 		help.close();
 	}
@@ -180,6 +192,10 @@ void ClearM(string file, vector<string>& taskList)
 		else if (input == "add")
 		{
 			AddM(taskList);
+		}
+		else if (input == "help")
+		{
+			Help("Mode");
 		}
 		else if (input == "more")
 		{
@@ -221,7 +237,7 @@ void ClearM(string file, vector<string>& taskList)
 				}
 				else if (spo == "help")
 				{
-					Help();
+					Help("General");
 				}
 				else if (spo == "quit")
 				{
@@ -280,7 +296,10 @@ void ClearM(string file, vector<string>& taskList)
 				{
 					cout << "Ok" << endl;
 				}
-
+				else if (DTO == "help")
+				{
+					Help("TaskDisplay");
+				}
 				else
 				{
 					cout << "Please Check For Typos." << endl;
